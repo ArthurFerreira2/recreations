@@ -1,4 +1,4 @@
- #include <stdlib.h>
+#include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include <SDL2/SDL.h>

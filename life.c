@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
   SDL_Window   *window   = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_CENTERED,
                                              SDL_WINDOWPOS_CENTERED, SIZE, SIZE, 0);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
   int x, y, neighbors;
@@ -24,7 +23,7 @@ int main(int argc, char **argv) {
   for (x=0; x<SIZE*SIZE; x++)
     cur[rand()%SIZE][rand()%SIZE] = 1;
 
-  while(isRunning) {
+  while(SDL_TRUE) {
 
     for (x=0; x<SIZE; x++)
       for (y=0; y<SIZE; y++) {
@@ -51,7 +50,8 @@ int main(int argc, char **argv) {
     new = tmp;
 
     SDL_RenderPresent(renderer);
-    while(SDL_PollEvent(&event)) if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
+    else SDL_Delay(256);
   }
 
   SDL_DestroyRenderer(renderer);

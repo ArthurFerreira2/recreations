@@ -12,7 +12,7 @@ int main(int argc, char *args[]) {
   Uint32      *pixels  = winSurf->pixels;
   SDL_Event    event;
 
-  int y   = 172;  // altitude
+  int y   = 64;  // altitude
   int wl  = 16;   // wavelength
   int amp = 64;   // amplitude
   float a = (float)rand() / (float)RAND_MAX;
@@ -23,11 +23,11 @@ int main(int argc, char *args[]) {
     if (x % wl == 0) {
       a = b;
       b = (float)rand() / (float)RAND_MAX;
-      y = (int)(172 + a * amp);
+      y = (int)(64 + a * amp);
     }
     else {
       f = (1 - cos((float)(x % wl) / wl * 3.141592)) * .5;
-      y = 172 + (int)((a * (1 - f) + b * f)  * amp);
+      y = 64 + (int)((a * (1 - f) + b * f)  * amp);
     }
     pixels[x + y * 256] = SDL_MapRGBA(winSurf->format, 255, 255, 255, SDL_ALPHA_OPAQUE);
   }

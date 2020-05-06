@@ -3,9 +3,8 @@
 int main(int argc, char **argv) {
 
   SDL_Init(SDL_INIT_VIDEO );
-  SDL_Window *window = SDL_CreateWindow("gravity2", SDL_WINDOWPOS_CENTERED,
-                                        SDL_WINDOWPOS_CENTERED, 256, 256, 0);
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Window *window = SDL_CreateWindow("gravity2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 256, 256, 0);
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
@@ -56,7 +55,7 @@ int main(int argc, char **argv) {
     corp2.vy += corp2.nvy;
     corp3.vx += corp3.nvx;
     corp3.vy += corp3.nvy;
-    
+
   // mise à jour des positions
     corp1.x += corp1.vx;
     corp1.y += corp1.vy;

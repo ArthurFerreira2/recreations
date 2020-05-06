@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 #define SIZE 256
-#define FPS 20
+#define FPS 10
 
 #define NB_CIRCLES 5
 #define RADIUS_MIN 30

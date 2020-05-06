@@ -11,7 +11,6 @@ int main(int argc, char* args[]){
   SDL_Window   *window   = SDL_CreateWindow("Lorenz Attractor", SDL_WINDOWPOS_CENTERED,
                                             SDL_WINDOWPOS_CENTERED, 256, 256, 0);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
   float s=10, b=8/3, r=28, dt=0.002;
@@ -20,7 +19,7 @@ int main(int argc, char* args[]){
   unsigned char currentPoint=0;
   greyedPoint lorenz[256]={{ 0 }};
 
-  while (isRunning) {
+  while (SDL_TRUE) {
 
 	  nx = x + s*(y-x)*dt;
 	  ny = y + (r*x-y-x*z)*dt;
@@ -37,8 +36,10 @@ int main(int argc, char* args[]){
       SDL_RenderDrawPoint(renderer, lorenz[i].x, lorenz[i].y);
       if (lorenz[i].greyLevel > 50) lorenz[i].greyLevel--;
     }
+
     SDL_RenderPresent(renderer);
-    while (SDL_PollEvent(&event)) if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN) isRunning = SDL_FALSE;
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
+    else SDL_Delay(20);
   }
 
   SDL_DestroyRenderer(renderer);

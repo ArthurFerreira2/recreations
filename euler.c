@@ -9,8 +9,7 @@ int main(int argc, char **argv) {
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_Window   *window   = SDL_CreateWindow("Euler Spiral", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SIZE, SIZE, SDL_WINDOW_OPENGL);
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_bool isRunning = SDL_TRUE;
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   SDL_Event event;
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -21,7 +20,7 @@ int main(int argc, char **argv) {
   long double a = 0.0;
   unsigned char t = 0;
 
-  while(isRunning) {
+  while(SDL_TRUE) {
     a += DELTA_A;
     angle += a;
 
@@ -31,10 +30,12 @@ int main(int argc, char **argv) {
     x = nx;
     y = ny;
 
-    if (++t == 0)  // only render wvery 256 frames
+    if (++t == 0) { // only render every 256 iterations
       SDL_RenderPresent(renderer);
+      SDL_Delay(256);
+    }
 
-    while(SDL_PollEvent(&event)) if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
   }
 
   SDL_DestroyRenderer(renderer);

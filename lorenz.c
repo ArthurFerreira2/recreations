@@ -9,13 +9,12 @@ int main(int argc, char* args[]){
   SDL_Rect canvas  = {0, 0, 256, 256};
 
   SDL_Event event;
-  SDL_bool isRunning = SDL_TRUE;
 
   const float s=10, b=8/3, r=28, dt=0.002;
   float x=0, y=1, z=1.05;
   float nx, ny;
 
-  while (isRunning) {
+  while (SDL_TRUE) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
     SDL_RenderFillRect(renderer, &canvas);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -29,8 +28,8 @@ int main(int argc, char* args[]){
     SDL_RenderDrawPoint(renderer, (int)(x*4 + 128), (int)(z*4));
     SDL_RenderPresent(renderer);
 
-    while (SDL_PollEvent(&event))
-      if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN) isRunning = SDL_FALSE;
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
+    else SDL_Delay(20);
   }
 
   SDL_DestroyRenderer(renderer);

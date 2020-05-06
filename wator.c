@@ -3,46 +3,45 @@
 #include <SDL2/SDL.h>
 
 
-#define SIZE 300
-#define GROS 4
-
+#define SIZE  256
+#define GROS  1
 #define NORTH 1
 #define SOUTH 2
 #define EAST  3
 #define WEST  4
 
 #define reproAge 10
-#define maxStarvation 6
-
-
-typedef enum {
-  none,
-  fish,
-  shark
-} species;
-
-typedef struct animal_t {
-  species sort;
-  int age;
-  int starvation;
-} animal;
+#define maxStarvation 8
 
 
 int main(int argc, char **argv) {
+
   int x, y, i, j;
   int age, starvation;
   int nbFish = 0;
   int nbShark = 0;
-  animal tor[SIZE][SIZE] = {0};
   int directions[4] = {0};
   int nbDirections = 0;
   int direction, neig, xe, xw, yn, ys;
 
+  typedef enum {
+    none,
+    fish,
+    shark
+  } species;
+
+  struct animal {
+    species sort;
+    int age;
+    int starvation;
+  } tor[SIZE][SIZE] = {0};
 
   srand(time(NULL));
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window   *window   = SDL_CreateWindow("Wator", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SIZE*GROS, SIZE*GROS, SDL_WINDOW_OPENGL);
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Window *window = SDL_CreateWindow("Wator", SDL_WINDOWPOS_CENTERED,
+                                         SDL_WINDOWPOS_CENTERED, SIZE*GROS,
+                                         SIZE*GROS, SDL_WINDOW_OPENGL);
+  SDL_Renderer *renderer=SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
   SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
@@ -50,12 +49,13 @@ int main(int argc, char **argv) {
     x = rand() % SIZE;
     y = rand() % SIZE;
     tor[x][y].sort = rand() % 2 ? fish : shark;
-    tor[x][y].starvation = 0; //rand() % maxStarvation;
+    tor[x][y].starvation = rand() % maxStarvation;
     tor[x][y].age = rand() % reproAge;
   }
 
   while(isRunning) {
-    while(SDL_PollEvent(&event)) if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
+    while(SDL_PollEvent(&event))
+      if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
 
     for (x=0; x<SIZE; x++) {
       for (y=0; y<SIZE; y++) {
@@ -94,12 +94,10 @@ int main(int argc, char **argv) {
           }
         }
 
-
         if (tor[x][y].sort == shark) {
           tor[x][y].starvation++;
-          if (tor[x][y].starvation > maxStarvation) {
+          if (tor[x][y].starvation > maxStarvation)
             tor[x][y].sort = none;
-          }
           else {
             nbDirections = 0;
             if(tor[xe][y].sort == fish) directions[nbDirections++]=EAST;
@@ -145,35 +143,33 @@ int main(int argc, char **argv) {
       }
     }
 
-    SDL_SetRenderDrawColor(renderer, 55, 55, 55 , 255);
+    SDL_SetRenderDrawColor(renderer, 55, 55, 55 , SDL_ALPHA_OPAQUE);
     SDL_RenderDrawLine(renderer, 0, 0, SIZE*GROS, 0);
     nbFish = 0;
     nbShark = 0;
     for (x=0; x<SIZE; x++) {
       for (y=0; y<SIZE; y++) {
         if (tor[x][y].sort == fish) {
-          SDL_SetRenderDrawColor(renderer, 0, 100, 255, 255);
-          // SDL_SetRenderDrawColor(renderer, 55, 55, 55, 255);  // if you want to see only the sharks
+          SDL_SetRenderDrawColor(renderer, 0, 100, 255, SDL_ALPHA_OPAQUE);
           nbFish++;
         }
         else if (tor[x][y].sort == shark) {
-          SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-          // SDL_SetRenderDrawColor(renderer, 55, 55, 55, 255);  // if you want to see only the fishes
+          SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
           nbShark++;
         }
         else
-          SDL_SetRenderDrawColor(renderer, 55, 55, 55 , 255);
+          SDL_SetRenderDrawColor(renderer, 55, 55, 55 , SDL_ALPHA_OPAQUE);
 
         SDL_RenderDrawPoint(renderer, x*GROS, y*GROS);
       }
     }
 
-    SDL_SetRenderDrawColor(renderer, 0, 100, 255, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 100, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawLine(renderer, 0, 0, nbFish*GROS/SIZE, 0);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawLine(renderer, 0, 0, nbShark*GROS/SIZE, 0);
 
-    SDL_Delay(20);
+    SDL_Delay(100);
     SDL_RenderPresent(renderer);
   }
 

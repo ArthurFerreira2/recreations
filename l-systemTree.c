@@ -108,10 +108,10 @@ int main(int argc, char **argv) {
     turtle(renderer, word1, lenght1);
   }
 
-  while(1) {
+  while(1)
     if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
     else SDL_Delay(256);
-  }
+
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

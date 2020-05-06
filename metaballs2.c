@@ -6,7 +6,7 @@
 
 
 #define SIZE 256
-#define FPS 20
+#define FPS 10
 
 #define NB_CIRCLES 5
 #define RADIUS_MIN 30
@@ -102,8 +102,8 @@ void hsv2rgb(hsvColor hsv, rgbColor* rgb) {
 }
 
 
-void drawCircle(SDL_Renderer* renderer, circle c) {
-  int PX, PY, DX = 1, DY = (int)c.r;
+void drawCircle(SDL_Renderer* renderer, circle c) {  // Bresenham
+  int PX, PY, DX = 0, DY = (int)c.r;
   int delta = (int)c.r - 1, ep;
 
   while(DY >= 0) {

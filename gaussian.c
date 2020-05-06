@@ -24,8 +24,7 @@ int main(int argc, char* args[]){
   SDL_RenderPresent(renderer);
 
   while(SDL_TRUE)
-    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT \
-        || event.type==SDL_KEYDOWN)) break;
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
     else SDL_Delay(256);
 
   SDL_DestroyRenderer(renderer);

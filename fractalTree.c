@@ -54,10 +54,9 @@ int main(int argc, char **argv) {
   draw_tree(renderer, SIZE/2, SIZE-10, .0, -1, INITLENGTH, PI/8, BRANCHES);
   SDL_RenderPresent(renderer);
 
-  while(SDL_TRUE) {
+  while(SDL_TRUE)
     if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
     else SDL_Delay(256);
-  }
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

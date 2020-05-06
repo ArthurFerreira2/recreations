@@ -18,14 +18,12 @@ int main(int argc, char **argv) {
 
   srand(time(NULL));
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window   *window   = SDL_CreateWindow("Forest Fire", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                            SIZE, SIZE, SDL_WINDOW_OPENGL);
+  SDL_Window   *window   = SDL_CreateWindow("Forest Fire", SDL_WINDOWPOS_CENTERED,
+                                            SDL_WINDOWPOS_CENTERED, SIZE, SIZE, 0);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
-  while(isRunning) {
-    while(SDL_PollEvent(&event)) if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
+  while(SDL_TRUE) {
     // https://en.wikipedia.org/wiki/Forest-fire_model
     for (x=1; x<SIZE-1; x++)
       for (y=1; y<SIZE-1; y++) {
@@ -71,6 +69,8 @@ int main(int argc, char **argv) {
     new = tmp;
 
     SDL_RenderPresent(renderer);
+    if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
+    else SDL_Delay(20);
   }
 
   SDL_DestroyRenderer(renderer);

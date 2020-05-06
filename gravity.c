@@ -33,8 +33,7 @@ int main(int argc, char **argv) {
 
   while(running) {
     while(SDL_PollEvent(&event))
-      if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN)
-        running = false;
+      if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN) running = false;
 
 
     // calculs sur 1

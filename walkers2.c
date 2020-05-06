@@ -11,7 +11,6 @@ int main(int argc, char* args[]) {
   SDL_Window *window = SDL_CreateWindow("Walkers2", SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED, 256, 256, SDL_WINDOW_OPENGL);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_bool isRunning = SDL_TRUE;
   SDL_Event event;
 
   for(int i=0; i<25; i++) {
@@ -20,7 +19,7 @@ int main(int argc, char* args[]) {
     walker[i].B = rand()%256;
   }
 
-  while (isRunning) {
+  while (SDL_TRUE) {
     for(int i=0; i<25; i++) {  // the walker can go 8 different directions
       walker[i].x += rand()%3 - 1;
       walker[i].y += rand()%3 - 1;
@@ -30,7 +29,8 @@ int main(int argc, char* args[]) {
     }
 
     SDL_RenderPresent(renderer);
-    while (SDL_PollEvent(&event)) if (event.type==SDL_QUIT || event.type==SDL_KEYDOWN) isRunning=SDL_FALSE;
+    if (SDL_PollEvent(&event) && (event.type == SDL_QUIT || event.type == SDL_KEYDOWN)) break;
+    else SDL_Delay(20);
   }
 
   SDL_DestroyRenderer(renderer);
