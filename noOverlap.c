@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     squares[i].y = rand() % (HEIGHT + SIZE) - SIZE;
     squares[i].h = rand() % SIZE;
     squares[i].w = squares[i].h;
-    for (int j=1; j<i; j++)
+    for (int j=0; j<i; j++)
       if (collide(squares[i], squares[j])) {
         i--;
         break;
