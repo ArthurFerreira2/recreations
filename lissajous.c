@@ -15,8 +15,7 @@ int main(int argc, char **argv) {
   float offset = .03;
 
   const int frameDelay = 1000 / FPS;
-  Uint32 frameStart;
-  int frameTime;
+  Uint32 frameStart, frameTime;
 
   srand(time(NULL));
   SDL_Init(SDL_INIT_VIDEO);

@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
     }
 
     SDL_RenderFillRect(renderer, &ant);
+  SDL_RenderPresent(renderer);
 
     switch (dir) {
       case    up: ant.y -=3 ; break;

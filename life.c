@@ -2,14 +2,14 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 
-#define SIZE 256
+#define SIZE 128
 
 int main(int argc, char **argv) {
 
   srand(time(NULL));
   SDL_Init(SDL_INIT_VIDEO);
   SDL_Window   *window   = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_CENTERED,
-                                             SDL_WINDOWPOS_CENTERED, SIZE, SIZE, 0);
+                                             SDL_WINDOWPOS_CENTERED, SIZE*2, SIZE*2, 0);
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   SDL_Event event;
 
@@ -42,7 +42,10 @@ int main(int argc, char **argv) {
           new[x][y] = 0;
           SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         }
-        SDL_RenderDrawPoint(renderer, x, y);
+        SDL_RenderDrawPoint(renderer, x*2  , y*2  );
+        SDL_RenderDrawPoint(renderer, x*2+1, y*2  );
+        SDL_RenderDrawPoint(renderer, x*2  , y*2+1);
+        SDL_RenderDrawPoint(renderer, x*2+1, y*2+1);
       }
 
     tmp = cur;
@@ -51,7 +54,7 @@ int main(int argc, char **argv) {
 
     SDL_RenderPresent(renderer);
     if (SDL_PollEvent(&event) && (event.type==SDL_QUIT || event.type==SDL_KEYDOWN)) break;
-    else SDL_Delay(256);
+    else SDL_Delay(25);
   }
 
   SDL_DestroyRenderer(renderer);
