@@ -8,10 +8,10 @@ Each source file is independant.
 
 To compile, you can either use make or
 * under windows :\
-`gcc <source.c> -std=c99 -pedantic -Wpedantic -Wall -Werror -O3 -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2 -o <executable>`
+`gcc <source.c> -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2 -o <executable>`
 
 * under linux :\
-`gcc <source.c> -std=c99 -pedantic -Wpedantic -Wall -Werror -O3 -lSDL2 -o <executable>`
+`gcc <source.c> -lSDL2 -o <executable>`
 
 
 Enjoy !
